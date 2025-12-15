@@ -55,6 +55,20 @@ export function useCartStore() {
     updateCart((prevCart) => prevCart.filter((p) => p.id !== id));
   };
 
+  const updateItemInCart = (updatedProduct) => {
+    updateCart((prevCart) => {
+      return prevCart.map((item) => {
+        if (item.id === updatedProduct.id) {
+          return {
+            ...updatedProduct,
+            quantity: item.quantity,
+          };
+        }
+        return item;
+      });
+    });
+  };
+
   const clearCart = () => updateCart([]);
 
   const totalItems = cart.reduce((sum, p) => sum + (p.quantity || 0), 0);
@@ -65,6 +79,7 @@ export function useCartStore() {
     cart,
     addToCart,
     decrementItem,
+    updateItemInCart,
     removeFromCart,
     clearCart,
     totalItems,
